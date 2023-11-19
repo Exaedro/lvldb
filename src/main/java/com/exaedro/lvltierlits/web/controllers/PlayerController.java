@@ -40,6 +40,15 @@ public class PlayerController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PutMapping("/edit")
+    public ResponseEntity<PlayerEntity> update(@RequestBody PlayerEntity player){
+        if (player.getId() != null && this.playerService.exist(player.getId())){
+            return ResponseEntity.ok(this.playerService.save(player));
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
 
     @DeleteMapping("/player/{idPlayer}")
     public ResponseEntity<Void> delete(@PathVariable int idPlayer){
