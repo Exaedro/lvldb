@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,15 +16,18 @@ public class PlayerService {
     private PlayerRepository playerRepository;
 
     public Iterable<PlayerEntity> getAll() {
-        return playerRepository.findAll();
+        return this.playerRepository.findAll();
     }
 
     public Optional<PlayerEntity> getById(int idPlayer) {
-        return playerRepository.findById(idPlayer);
+        return this.playerRepository.findById(idPlayer);
     }
+
+    public PlayerEntity save(PlayerEntity player){return this.playerRepository.save(player);}
 
     public boolean exist (int idPlayer){
         return this.playerRepository.existsById(idPlayer);
     }
+
     public void delete (int idPlayer) {this.playerRepository.deleteById(idPlayer);}
 }

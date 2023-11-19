@@ -13,22 +13,33 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/players")
 public class PlayerController {
+
+    private final PlayerService playerService;
+
     @Autowired
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
 
-    private final PlayerService playerService;
-
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Iterable<PlayerEntity>> getAll() {
-        return new ResponseEntity<>(playerService.getAll(), HttpStatus.OK);
+        return ResponseEntity.ok(this.playerService.getAll());
     }
 
-    @GetMapping("/player/{idPlayer}")
-    public ResponseEntity<Optional<PlayerEntity>> getById(@PathVariable("idPlayer") int idPlayer) {
-        return new ResponseEntity<>(playerService.getById(idPlayer), HttpStatus.OK);
+
+    @GetMapping("/{idPizza}")
+    public ResponseEntity<Optional<PlayerEntity>> getById(@PathVariable int idPlayer){
+        return ResponseEntity.ok(this.playerService.getById(idPlayer));
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<PlayerEntity> add(@RequestBody PlayerEntity player){
+        if (player.getId() == null || !this.playerService.exist(player.getId())){
+            return ResponseEntity.ok(this.playerService.save(player));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
 
     @DeleteMapping("/player/{idPlayer}")
     public ResponseEntity<Void> delete(@PathVariable int idPlayer){
