@@ -18,7 +18,12 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Optional<PlayerEntity> getById(Integer id) {
-        return playerRepository.findById(id);
+    public Optional<PlayerEntity> getById(int idPlayer) {
+        return playerRepository.findById(idPlayer);
     }
+
+    public boolean exist (int idPlayer){
+        return this.playerRepository.existsById(idPlayer);
+    }
+    public void delete (int idPlayer) {this.playerRepository.deleteById(idPlayer);}
 }

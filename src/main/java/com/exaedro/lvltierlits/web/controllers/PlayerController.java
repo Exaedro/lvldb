@@ -1,4 +1,4 @@
-package com.exaedro.lvltierlits.controllers;
+package com.exaedro.lvltierlits.web.controllers;
 
 import com.exaedro.lvltierlits.entity.PlayerEntity;
 import com.exaedro.lvltierlits.service.PlayerService;
@@ -25,8 +25,17 @@ public class PlayerController {
         return new ResponseEntity<>(playerService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/player/{id}")
-    public ResponseEntity<Optional<PlayerEntity>> getById(@PathVariable("id") int playerId) {
-        return new ResponseEntity<>(playerService.getById(playerId), HttpStatus.OK);
+    @GetMapping("/player/{idPlayer}")
+    public ResponseEntity<Optional<PlayerEntity>> getById(@PathVariable("idPlayer") int idPlayer) {
+        return new ResponseEntity<>(playerService.getById(idPlayer), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/player/{idPlayer}")
+    public ResponseEntity<Void> delete(@PathVariable int idPlayer){
+        if (this.playerService.exist(idPlayer)){
+            this.playerService.delete(idPlayer);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }
